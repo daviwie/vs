@@ -6,11 +6,10 @@ import java.io.PrintWriter;
 import java.net.*;
 
 public class RegisterClient {
-	//URL url = new URL("stockholm.vitalab.tuwien.ac.at:9000");
 	static String url = "stockholm.vitalab.tuwien.ac.at";
 	static int port = 9000;
-	String login = "!login 0706376 23704";
-	String exit = "!exit";
+	//String login = "!login 0706376 23704";
+	//String exit = "!exit";
 	static Socket regSocket;
 	
 	public static void main(String args[]){
