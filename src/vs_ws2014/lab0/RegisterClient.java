@@ -4,13 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.*;
+import java.net.Socket;
 
 public class RegisterClient {
 	static String url = "stockholm.vitalab.tuwien.ac.at";
 	static int port = 9000;
-	// String login = "!login 0706376 23704";
-	// String exit = "!exit";
+
+	/**
+	 * Commands: !login 0706376 23704 !exit
+	 */
 
 	public static void main(String[] args) throws IOException {
 		connect0();
@@ -18,32 +20,36 @@ public class RegisterClient {
 
 	private static void connect0() throws IOException {
 		Socket regSocket = null;
-		PrintWriter out = null;
-		BufferedReader in = null;
-		BufferedReader response = null;
-		
-		try {
-			regSocket = new Socket(url, port);
-			out = new PrintWriter(regSocket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(regSocket.getInputStream()));
-			response = new BufferedReader(new InputStreamReader(System.in));
+		PrintWriter userOutputWriter = null;
+		BufferedReader serverOutputReader = null;
+		BufferedReader userInputReader = null;
 
-			String userInput;
-			while ((userInput = response.readLine()) != null) {
-				out.println(userInput);
-				System.out.println("dsLab: " + in.readLine());
+		try {
+			/**
+			 * From user/program perspective, we are outputting data to the
+			 * server and the server is inputting data back to the user/program.
+			 */
+			regSocket = new Socket(url, port);
+			userOutputWriter = new PrintWriter(regSocket.getOutputStream(), true);
+			serverOutputReader = new BufferedReader(new InputStreamReader(regSocket.getInputStream()));
+			userInputReader = new BufferedReader(new InputStreamReader(System.in));
+
+			String userCmd;
+			while ((userCmd = userInputReader.readLine()) != null) {
+				userOutputWriter.println(userCmd);
+				System.out.println("dsLab: " + serverOutputReader.readLine());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if(regSocket != null)
+			if (regSocket != null)
 				regSocket.close();
-			if(in != null)
-				in.close();
-			if(out != null)
-				out.close();
-			if(response != null)
-				response.close();
+			if (serverOutputReader != null)
+				serverOutputReader.close();
+			if (userOutputWriter != null)
+				userOutputWriter.close();
+			if (userInputReader != null)
+				userInputReader.close();
 		}
 	}
 }
