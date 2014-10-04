@@ -11,7 +11,11 @@ public class RegisterClient {
 	static int port = 9000;
 
 	/**
-	 * Commands: !login 0706376 23704 !exit
+	 * Commands:
+	 * 
+	 * !login 0706376 23704
+	 * 
+	 * !exit
 	 */
 
 	public static void main(String[] args) throws IOException {
@@ -42,14 +46,14 @@ public class RegisterClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if (regSocket != null)
-				regSocket.close();
-			if (serverOutputReader != null)
-				serverOutputReader.close();
-			if (userOutputWriter != null)
-				userOutputWriter.close();
 			if (userInputReader != null)
 				userInputReader.close();
+			if (userOutputWriter != null)
+				userOutputWriter.close();
+			if (serverOutputReader != null)
+				serverOutputReader.close();
+			if (regSocket != null)
+				regSocket.close();
 		}
 	}
 }
